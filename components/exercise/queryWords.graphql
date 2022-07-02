@@ -1,0 +1,9 @@
+query Words($request: WordsInput!) {
+    words(request: $request) {
+        items {
+            id
+            original
+            translation
+        }
+    }
+}

@@ -1,0 +1,13 @@
+query WordListById($request: WordListInput!) {
+    wordListById(request: $request) {
+        items {
+            id
+            name
+            words {
+                id
+                original
+                translation
+            }
+        }
+    }
+}

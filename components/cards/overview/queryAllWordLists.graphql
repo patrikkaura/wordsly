@@ -1,0 +1,12 @@
+query AllWordLists {
+    wordList {
+        items {
+            id
+            name
+            rating
+            words {
+                id
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+overwrite: true
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+schema:
+  - ./graphql/schema.graphql
+generates:
+  ./generated/graphql.ts:
+    documents:
+      - ./components/**/*.graphql
+    plugins:
+      - typescript
+      - typescript-resolvers
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
+      skipTypename: true
+      apolloReactCommonImportFrom: "@apollo/client"
+      apolloReactHooksImportFrom: "@apollo/client"

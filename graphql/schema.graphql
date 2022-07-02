@@ -1,0 +1,35 @@
+type Word {
+    id: ID!
+    original: String!
+    translation: String!
+}
+
+type WordList {
+    id: ID!
+    name: String!
+    description: String
+    rating: Int!
+    words: [Word!]!
+}
+
+input WordListInput {
+    id: ID!
+}
+
+type WordListResponse {
+    items: [WordList!]!
+}
+
+input WordsInput {
+    id: ID!
+}
+
+type WordsResponse {
+    items: [Word!]!
+}
+
+type Query {
+    wordList: WordListResponse!
+    wordListById(request: WordListInput!): WordListResponse!
+    words(request: WordsInput!): WordsResponse!
+}
