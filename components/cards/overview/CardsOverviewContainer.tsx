@@ -1,23 +1,23 @@
-import { memo } from 'react';
-import { Wrap, WrapItem } from '@chakra-ui/react';
+import { memo } from "react";
+import { Wrap, WrapItem } from "@chakra-ui/react";
 
-import { useAllWordListsQuery } from '@generated/graphql';
-import Loading from '@components/common/Loading';
+import Card from "@components/cards/overview/card/Card";
+import CardsOverviewToolbar from "@components//cards/overview/CardsOverviewToolbar";
 
-import Card from './card/Card';
-import CardsOverviewToolbar from './CardsOverviewToolbar';
+import type { Word } from "types";
 
-function CardsOverviewContainer() {
-  const { data, loading } = useAllWordListsQuery({
-    fetchPolicy: 'cache-first',
-  });
+type WordList = {
+  id: string;
+  name: string;
+  rating: number;
+  words: Pick<Word, "id">[];
+};
 
-  if (loading || !data) {
-    return <Loading />;
-  }
+type Props = {
+  items: WordList[];
+};
 
-  const items = data.wordList.items;
-
+function CardsOverviewContainer({ items }: Props) {
   return (
     <Wrap p={6} spacing={6}>
       <WrapItem alignItems="center">

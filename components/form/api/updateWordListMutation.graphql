@@ -1,0 +1,3 @@
+mutation UpdateWordList($request: UpdateWordListInput!) {
+    updateWordList(request: $request)
+}

@@ -1,6 +1,6 @@
-import type { NextPage } from 'next';
+import type { NextPage } from "next";
 
-import CreateContainer from '@components/form/create/CreateContainer';
+import CreateContainer from "@components/form/create/CreateContainer";
 
 const CardCreate: NextPage = () => {
   return <CreateContainer />;

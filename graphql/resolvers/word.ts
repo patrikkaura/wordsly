@@ -1,116 +1,89 @@
 import {
-  WordList,
-  WordListResponse,
   WordListInput,
+  WordListResponse,
   WordsInput,
+  CreateWordListInput,
+  UpdateWordListInput,
   WordsResponse,
-} from '@generated/graphql';
+} from "@generated/graphql";
 
-const store: WordList[] = [
-  {
-    id: '1',
-    name: 'Transport',
-    description: 'all transport types',
-    words: [{ id: '1', original: 'auto', translation: 'car' }],
-    rating: 3,
-  },
-  {
-    id: '2',
-    name: 'Animals',
-    description: 'all living animals',
-    words: [
-      { id: '1', original: 'lev', translation: 'lion' },
-      { id: '2', original: 'pes', translation: 'dog' },
-      { id: '3', original: 'kocka', translation: 'cat' },
-      { id: '4', original: 'jesterka', translation: 'lizzard' },
-      { id: '5', original: 'tucnak', translation: 'penguin' },
-    ],
-    rating: 2,
-  },
-  {
-    id: '3',
-    name: 'Furniture',
-    description: 'all furniture types',
-    words: [
-      { id: '1', original: 'stul', translation: 'table' },
-      { id: '2', original: 'zidle', translation: 'chair' },
-    ],
-    rating: 1,
-  },
-  {
-    id: '4',
-    name: 'Transport',
-    description: 'all transport types',
-    words: [
-      { id: '1', original: 'auto', translation: 'car' },
-      { id: '2', original: 'lod', translation: 'boat' },
-      { id: '3', original: 'letadlo', translation: 'plane' },
-      { id: '4', original: 'traktors', translation: 'tractor' },
-      { id: '1', original: 'auto', translation: 'car' },
-      { id: '2', original: 'lod', translation: 'boat' },
-      { id: '3', original: 'letadlo', translation: 'plane' },
-      { id: '4', original: 'traktors', translation: 'tractor' },
-      { id: '1', original: 'auto', translation: 'car' },
-      { id: '2', original: 'lod', translation: 'boat' },
-      { id: '3', original: 'letadlo', translation: 'plane' },
-      { id: '4', original: 'traktors', translation: 'tractor' },
-    ],
-    rating: 3,
-  },
-  {
-    id: '5',
-    name: 'Animals',
-    description: 'all living animals',
-    words: [
-      { id: '1', original: 'lev', translation: 'lion' },
-      { id: '2', original: 'pes', translation: 'dog' },
-      { id: '3', original: 'kocka', translation: 'cat' },
-      { id: '4', original: 'jesterka', translation: 'lizzard' },
-      { id: '5', original: 'tucnak', translation: 'penguin' },
-    ],
-    rating: 2,
-  },
-  {
-    id: '6',
-    name: 'Furniture',
-    description: 'all furniture types',
-    words: [
-      { id: '1', original: 'stul', translation: 'table' },
-      { id: '2', original: 'zidle', translation: 'chair' },
-      { id: '3', original: 'skrin', translation: 'cupboard' },
-      { id: '4', original: 'televize', translation: 'television' },
-      { id: '5', original: 'zrcadlo', translation: 'mirror' },
-    ],
-    rating: 1,
-  },
-];
+import WordModel from "@models/Word";
+import WordListModel from "@models/WordList";
 
-type WordsListByIdResolverInput = {
-  request: WordListInput;
+type InputRequest<T> = {
+  request: T;
 };
 
-type WordsResolverInput = {
-  request: WordsInput;
-};
+export async function wordListResolver(): Promise<WordListResponse> {
+  const items = await WordListModel.findAll();
 
-export function wordListResolver(): WordListResponse {
-  return { items: store };
+  if (!items) {
+    return { items: [] };
+  }
+  return { items: items };
 }
 
-export function wordListByIdResolver({ id }: WordListInput): WordListResponse {
-  const wordList = store.filter((wordList) => wordList.id === id);
+export async function wordListByIdResolver({
+  id,
+}: WordListInput): Promise<WordListResponse> {
+  const item = await WordListModel.findById(id);
 
-  return { items: wordList };
+  if (!item) {
+    return { items: [] };
+  }
+
+  return { items: [item] };
 }
 
-export function wordsResolver({ id }: WordsInput): WordsResponse {
-  const wordList = store.filter((wordList) => wordList.id === id);
+export async function wordsResolver({
+  id,
+}: WordsInput): Promise<WordsResponse> {
+  const items = await WordModel.findAllByWordListId(id);
 
-  return { items: wordList[0].words };
+  if (!items) {
+    return { items: [] };
+  }
+
+  return { items };
 }
+
+export async function createWordListMutation({
+  name,
+  description,
+  words,
+}: CreateWordListInput): Promise<boolean> {
+  return WordListModel.create({
+    name,
+    description,
+    words,
+  });
+}
+
+export async function updateWordListMutation({
+  id,
+  name,
+  description,
+  words,
+}: UpdateWordListInput): Promise<boolean> {
+  return WordListModel.update({
+    id,
+    name,
+    description,
+    words,
+  });
+}
+
 export const Queries = {
   wordList: () => wordListResolver(),
-  wordListById: (_: any, { request }: WordsListByIdResolverInput) =>
+  wordListById: (_: any, { request }: InputRequest<WordListInput>) =>
     wordListByIdResolver(request),
-  words: (_: any, { request }: WordsResolverInput) => wordsResolver(request),
+  words: (_: any, { request }: InputRequest<WordsInput>) =>
+    wordsResolver(request),
+};
+
+export const Mutations = {
+  createWordList: (_: any, { request }: InputRequest<CreateWordListInput>) =>
+    createWordListMutation(request),
+  updateWordList: (_: any, { request }: InputRequest<UpdateWordListInput>) =>
+    updateWordListMutation(request),
 };

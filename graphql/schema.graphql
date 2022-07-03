@@ -7,7 +7,7 @@ type Word {
 type WordList {
     id: ID!
     name: String!
-    description: String
+    description: String!
     rating: Int!
     words: [Word!]!
 }
@@ -32,4 +32,27 @@ type Query {
     wordList: WordListResponse!
     wordListById(request: WordListInput!): WordListResponse!
     words(request: WordsInput!): WordsResponse!
+}
+
+input WordInput {
+    original: String!
+    translation: String!
+}
+
+input CreateWordListInput {
+    name: String!
+    description: String!
+    words: [WordInput!]!
+}
+
+input UpdateWordListInput {
+    id: ID!
+    name: String!
+    description: String!
+    words: [WordInput!]!
+}
+
+type Mutation {
+    createWordList(request: CreateWordListInput!): Boolean!
+    updateWordList(request: UpdateWordListInput!): Boolean!
 }

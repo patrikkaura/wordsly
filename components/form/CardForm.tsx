@@ -1,24 +1,26 @@
-import { Box, Heading } from '@chakra-ui/react';
+import React from "react";
+import { Box, Heading } from "@chakra-ui/react";
 
-import type { Word } from 'types';
+import { FormTypeEnum } from "@components/form/types";
 
-import CardFormInput from './CardFormInput';
-import CardFormTable from './CardFormTable';
+import CardFormBaseInput from "./CardFormBaseInput";
+import CardFormInput from "./CardFormInput";
+import CardFormTable from "./CardFormTable";
 
 type Props = {
-  id?: string;
-  name?: string;
-  words?: Word[];
+  type: FormTypeEnum;
 };
 
-const CardForm = ({ id, name, words = [] }: Props) => {
-  const formTitle = id ? `Editace karty: ${name}` : 'Nove karty';
+const CardForm = ({ type }: Props) => {
+  const formTitle =
+    type === FormTypeEnum.UPDATE ? `Editace karty` : "Nová karta";
 
   return (
     <Box p={10}>
       <Heading color="gray.600">{formTitle}</Heading>
+      <CardFormBaseInput />
       <CardFormInput />
-      <CardFormTable words={words} />
+      <CardFormTable />
     </Box>
   );
 };

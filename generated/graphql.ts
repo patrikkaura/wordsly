@@ -1,7 +1,7 @@
-import { GraphQLResolveInfo } from 'graphql';
-import { gql } from '@apollo/client';
-import * as ApolloReactCommon from '@apollo/client';
-import * as ApolloReactHooks from '@apollo/client';
+import { GraphQLResolveInfo } from "graphql";
+import { gql } from "@apollo/client";
+import * as ApolloReactCommon from "@apollo/client";
+import * as ApolloReactHooks from "@apollo/client";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -26,6 +26,25 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateWordListInput = {
+  description: Scalars["String"];
+  name: Scalars["String"];
+  words: Array<WordInput>;
+};
+
+export type Mutation = {
+  createWordList: Scalars["Boolean"];
+  updateWordList: Scalars["Boolean"];
+};
+
+export type MutationCreateWordListArgs = {
+  request: CreateWordListInput;
+};
+
+export type MutationUpdateWordListArgs = {
+  request: UpdateWordListInput;
+};
+
 export type Query = {
   wordList: WordListResponse;
   wordListById: WordListResponse;
@@ -40,22 +59,34 @@ export type QueryWordsArgs = {
   request: WordsInput;
 };
 
+export type UpdateWordListInput = {
+  description: Scalars["String"];
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  words: Array<WordInput>;
+};
+
 export type Word = {
-  id: Scalars['ID'];
-  original: Scalars['String'];
-  translation: Scalars['String'];
+  id: Scalars["ID"];
+  original: Scalars["String"];
+  translation: Scalars["String"];
+};
+
+export type WordInput = {
+  original: Scalars["String"];
+  translation: Scalars["String"];
 };
 
 export type WordList = {
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  rating: Scalars['Int'];
+  description: Scalars["String"];
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  rating: Scalars["Int"];
   words: Array<Word>;
 };
 
 export type WordListInput = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
 
 export type WordListResponse = {
@@ -63,7 +94,7 @@ export type WordListResponse = {
 };
 
 export type WordsInput = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
 
 export type WordsResponse = {
@@ -83,21 +114,21 @@ export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
 export interface SubscriptionSubscriberObject<
@@ -105,7 +136,7 @@ export interface SubscriptionSubscriberObject<
   TKey extends string,
   TParent,
   TContext,
-  TArgs,
+  TArgs
 > {
   subscribe: SubscriptionSubscribeFn<
     { [key in TKey]: TResult },
@@ -131,7 +162,7 @@ export type SubscriptionObject<
   TKey extends string,
   TParent,
   TContext,
-  TArgs,
+  TArgs
 > =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
@@ -141,7 +172,7 @@ export type SubscriptionResolver<
   TKey extends string,
   TParent = {},
   TContext = {},
-  TArgs = {},
+  TArgs = {}
 > =
   | ((
       ...args: any[]
@@ -151,13 +182,13 @@ export type SubscriptionResolver<
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
 export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
   obj: T,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
@@ -166,23 +197,27 @@ export type DirectiveResolverFn<
   TResult = {},
   TParent = {},
   TContext = {},
-  TArgs = {},
+  TArgs = {}
 > = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  CreateWordListInput: CreateWordListInput;
+  ID: ResolverTypeWrapper<Scalars["ID"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
+  String: ResolverTypeWrapper<Scalars["String"]>;
+  UpdateWordListInput: UpdateWordListInput;
   Word: ResolverTypeWrapper<Word>;
+  WordInput: WordInput;
   WordList: ResolverTypeWrapper<WordList>;
   WordListInput: WordListInput;
   WordListResponse: ResolverTypeWrapper<WordListResponse>;
@@ -192,12 +227,16 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Boolean: Scalars['Boolean'];
-  ID: Scalars['ID'];
-  Int: Scalars['Int'];
+  Boolean: Scalars["Boolean"];
+  CreateWordListInput: CreateWordListInput;
+  ID: Scalars["ID"];
+  Int: Scalars["Int"];
+  Mutation: {};
   Query: {};
-  String: Scalars['String'];
+  String: Scalars["String"];
+  UpdateWordListInput: UpdateWordListInput;
   Word: Word;
+  WordInput: WordInput;
   WordList: WordList;
   WordListInput: WordListInput;
   WordListResponse: WordListResponse;
@@ -205,72 +244,87 @@ export type ResolversParentTypes = {
   WordsResponse: WordsResponse;
 };
 
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
+> = {
+  createWordList?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateWordListArgs, "request">
+  >;
+  updateWordList?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateWordListArgs, "request">
+  >;
+};
+
 export type QueryResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
+  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
   wordList?: Resolver<
-    ResolversTypes['WordListResponse'],
+    ResolversTypes["WordListResponse"],
     ParentType,
     ContextType
   >;
   wordListById?: Resolver<
-    ResolversTypes['WordListResponse'],
+    ResolversTypes["WordListResponse"],
     ParentType,
     ContextType,
-    RequireFields<QueryWordListByIdArgs, 'request'>
+    RequireFields<QueryWordListByIdArgs, "request">
   >;
   words?: Resolver<
-    ResolversTypes['WordsResponse'],
+    ResolversTypes["WordsResponse"],
     ParentType,
     ContextType,
-    RequireFields<QueryWordsArgs, 'request'>
+    RequireFields<QueryWordsArgs, "request">
   >;
 };
 
 export type WordResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes['Word'] = ResolversParentTypes['Word'],
+  ParentType extends ResolversParentTypes["Word"] = ResolversParentTypes["Word"]
 > = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  original?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  translation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  original?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  translation?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type WordListResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes['WordList'] = ResolversParentTypes['WordList'],
+  ParentType extends ResolversParentTypes["WordList"] = ResolversParentTypes["WordList"]
 > = {
-  description?: Resolver<
-    Maybe<ResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  rating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  words?: Resolver<Array<ResolversTypes['Word']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  rating?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  words?: Resolver<Array<ResolversTypes["Word"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type WordListResponseResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes['WordListResponse'] = ResolversParentTypes['WordListResponse'],
+  ParentType extends ResolversParentTypes["WordListResponse"] = ResolversParentTypes["WordListResponse"]
 > = {
-  items?: Resolver<Array<ResolversTypes['WordList']>, ParentType, ContextType>;
+  items?: Resolver<Array<ResolversTypes["WordList"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type WordsResponseResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes['WordsResponse'] = ResolversParentTypes['WordsResponse'],
+  ParentType extends ResolversParentTypes["WordsResponse"] = ResolversParentTypes["WordsResponse"]
 > = {
-  items?: Resolver<Array<ResolversTypes['Word']>, ParentType, ContextType>;
+  items?: Resolver<Array<ResolversTypes["Word"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Word?: WordResolvers<ContextType>;
   WordList?: WordListResolvers<ContextType>;
@@ -301,6 +355,12 @@ export type WordsQuery = {
   };
 };
 
+export type CreateWordListMutationVariables = Exact<{
+  request: CreateWordListInput;
+}>;
+
+export type CreateWordListMutation = { createWordList: boolean };
+
 export type WordListByIdQueryVariables = Exact<{
   request: WordListInput;
 }>;
@@ -310,10 +370,17 @@ export type WordListByIdQuery = {
     items: Array<{
       id: string;
       name: string;
+      description: string;
       words: Array<{ id: string; original: string; translation: string }>;
     }>;
   };
 };
+
+export type UpdateWordListMutationVariables = Exact<{
+  request: UpdateWordListInput;
+}>;
+
+export type UpdateWordListMutation = { updateWordList: boolean };
 
 export const AllWordListsDocument = gql`
   query AllWordLists {
@@ -349,7 +416,7 @@ export function useAllWordListsQuery(
   baseOptions?: ApolloReactHooks.QueryHookOptions<
     AllWordListsQuery,
     AllWordListsQueryVariables
-  >,
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useQuery<
@@ -361,7 +428,7 @@ export function useAllWordListsLazyQuery(
   baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
     AllWordListsQuery,
     AllWordListsQueryVariables
-  >,
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useLazyQuery<
@@ -411,24 +478,24 @@ export function useWordsQuery(
   baseOptions: ApolloReactHooks.QueryHookOptions<
     WordsQuery,
     WordsQueryVariables
-  >,
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useQuery<WordsQuery, WordsQueryVariables>(
     WordsDocument,
-    options,
+    options
   );
 }
 export function useWordsLazyQuery(
   baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
     WordsQuery,
     WordsQueryVariables
-  >,
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useLazyQuery<WordsQuery, WordsQueryVariables>(
     WordsDocument,
-    options,
+    options
   );
 }
 export type WordsQueryHookResult = ReturnType<typeof useWordsQuery>;
@@ -437,12 +504,62 @@ export type WordsQueryResult = ApolloReactCommon.QueryResult<
   WordsQuery,
   WordsQueryVariables
 >;
+export const CreateWordListDocument = gql`
+  mutation CreateWordList($request: CreateWordListInput!) {
+    createWordList(request: $request)
+  }
+`;
+export type CreateWordListMutationFn = ApolloReactCommon.MutationFunction<
+  CreateWordListMutation,
+  CreateWordListMutationVariables
+>;
+
+/**
+ * __useCreateWordListMutation__
+ *
+ * To run a mutation, you first call `useCreateWordListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWordListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWordListMutation, { data, loading, error }] = useCreateWordListMutation({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useCreateWordListMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    CreateWordListMutation,
+    CreateWordListMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    CreateWordListMutation,
+    CreateWordListMutationVariables
+  >(CreateWordListDocument, options);
+}
+export type CreateWordListMutationHookResult = ReturnType<
+  typeof useCreateWordListMutation
+>;
+export type CreateWordListMutationResult =
+  ApolloReactCommon.MutationResult<CreateWordListMutation>;
+export type CreateWordListMutationOptions =
+  ApolloReactCommon.BaseMutationOptions<
+    CreateWordListMutation,
+    CreateWordListMutationVariables
+  >;
 export const WordListByIdDocument = gql`
   query WordListById($request: WordListInput!) {
     wordListById(request: $request) {
       items {
         id
         name
+        description
         words {
           id
           original
@@ -473,7 +590,7 @@ export function useWordListByIdQuery(
   baseOptions: ApolloReactHooks.QueryHookOptions<
     WordListByIdQuery,
     WordListByIdQueryVariables
-  >,
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useQuery<
@@ -485,7 +602,7 @@ export function useWordListByIdLazyQuery(
   baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
     WordListByIdQuery,
     WordListByIdQueryVariables
-  >,
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useLazyQuery<
@@ -503,3 +620,52 @@ export type WordListByIdQueryResult = ApolloReactCommon.QueryResult<
   WordListByIdQuery,
   WordListByIdQueryVariables
 >;
+export const UpdateWordListDocument = gql`
+  mutation UpdateWordList($request: UpdateWordListInput!) {
+    updateWordList(request: $request)
+  }
+`;
+export type UpdateWordListMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateWordListMutation,
+  UpdateWordListMutationVariables
+>;
+
+/**
+ * __useUpdateWordListMutation__
+ *
+ * To run a mutation, you first call `useUpdateWordListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWordListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWordListMutation, { data, loading, error }] = useUpdateWordListMutation({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useUpdateWordListMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateWordListMutation,
+    UpdateWordListMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    UpdateWordListMutation,
+    UpdateWordListMutationVariables
+  >(UpdateWordListDocument, options);
+}
+export type UpdateWordListMutationHookResult = ReturnType<
+  typeof useUpdateWordListMutation
+>;
+export type UpdateWordListMutationResult =
+  ApolloReactCommon.MutationResult<UpdateWordListMutation>;
+export type UpdateWordListMutationOptions =
+  ApolloReactCommon.BaseMutationOptions<
+    UpdateWordListMutation,
+    UpdateWordListMutationVariables
+  >;
