@@ -1,13 +1,18 @@
-import { Resolvers } from '@generated/graphql';
-import { Queries as WordQueries, Mutations as WordMutations } from '@graphql/resolvers/word';
+import { Resolvers } from "@generated/graphql";
+import { Queries as WordQueries } from "@graphql/resolvers/Word";
+import {
+  Queries as WordListQueries,
+  Mutations as WordListMutations,
+} from "@graphql/resolvers/WordList";
 
 const resolvers: Resolvers = {
   Query: {
     ...WordQueries,
+    ...WordListQueries,
   },
   Mutation: {
-    ...WordMutations,
-  }
+    ...WordListMutations,
+  },
 };
 
 export default resolvers;

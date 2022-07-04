@@ -1,18 +1,14 @@
 import {
   WordListInput,
   WordListResponse,
-  WordsInput,
   CreateWordListInput,
   UpdateWordListInput,
-  WordsResponse,
+  DeleteWordListInput,
 } from "@generated/graphql";
 
-import WordModel from "@models/Word";
 import WordListModel from "@models/WordList";
 
-type InputRequest<T> = {
-  request: T;
-};
+type Request<T> = { request: T };
 
 export async function wordListResolver(): Promise<WordListResponse> {
   const items = await WordListModel.findAll();
@@ -33,18 +29,6 @@ export async function wordListByIdResolver({
   }
 
   return { items: [item] };
-}
-
-export async function wordsResolver({
-  id,
-}: WordsInput): Promise<WordsResponse> {
-  const items = await WordModel.findAllByWordListId(id);
-
-  if (!items) {
-    return { items: [] };
-  }
-
-  return { items };
 }
 
 export async function createWordListMutation({
@@ -73,17 +57,23 @@ export async function updateWordListMutation({
   });
 }
 
+export async function deleteWordListMutation({
+  id,
+}: DeleteWordListInput): Promise<boolean> {
+  return WordListModel.delete(id);
+}
+
 export const Queries = {
   wordList: () => wordListResolver(),
-  wordListById: (_: any, { request }: InputRequest<WordListInput>) =>
+  wordListById: (_: any, { request }: Request<WordListInput>) =>
     wordListByIdResolver(request),
-  words: (_: any, { request }: InputRequest<WordsInput>) =>
-    wordsResolver(request),
 };
 
 export const Mutations = {
-  createWordList: (_: any, { request }: InputRequest<CreateWordListInput>) =>
+  createWordList: (_: any, { request }: Request<CreateWordListInput>) =>
     createWordListMutation(request),
-  updateWordList: (_: any, { request }: InputRequest<UpdateWordListInput>) =>
+  updateWordList: (_: any, { request }: Request<UpdateWordListInput>) =>
     updateWordListMutation(request),
+  deleteWordList: (_: any, { request }: Request<DeleteWordListInput>) =>
+    deleteWordListMutation(request),
 };
