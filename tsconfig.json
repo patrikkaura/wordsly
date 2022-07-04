@@ -20,6 +20,7 @@
       "@graphql/*": ["graphql/*"],
       "@styles/*": ["styles/*"],
       "@generated/*": ["generated/*"],
+      "@models/*": ["models/*"],
       "types/*": ["types/*"],
       "@config": ["config/index"],
     }

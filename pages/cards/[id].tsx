@@ -1,9 +1,9 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
 
-import EditContainer from '@components/form/edit/EditContainer';
-import Loading from '@components/common/Loading';
-import { useWordListByIdQuery } from '@generated/graphql';
+import EditContainer from "@components/form/edit/EditContainer";
+import { useWordListByIdQuery } from "@generated/graphql";
+import Loading from "@components/common/Loading";
 
 const CardEdit: NextPage = () => {
   const router = useRouter();
@@ -21,9 +21,9 @@ const CardEdit: NextPage = () => {
     return <Loading />;
   }
 
-  const { id: wordListId, name, words } = data.wordListById.items[0];
+  const wordList = data.wordListById.items[0];
 
-  return <EditContainer id={wordListId} name={name} words={words} />;
+  return <EditContainer wordList={wordList} />;
 };
 
 export default CardEdit;

@@ -1,5 +1,5 @@
 export type Word = {
-  id: string;
+  id?: string;
   original: string;
   translation: string;
 };
@@ -7,7 +7,7 @@ export type Word = {
 export type WordList = {
   id: string;
   name: string;
-  description: string | null;
+  description: string;
   words: Word[];
   rating: number;
 };

@@ -1,17 +1,79 @@
-import { memo } from 'react';
+import { memo, useCallback } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { isApolloError } from "@apollo/client";
 
-import type { Word } from 'types';
-
-import CardForm from '../CardForm';
+import { useUpdateWordListMutation } from "@generated/graphql";
+import { EditForm, FormTypeEnum } from "@components/form/types";
+import CardForm from "@components/form/CardForm";
+import type { Word, WordList } from "types";
 
 type Props = {
-  id: string;
-  name: string;
-  words: Word[];
+  wordList: Omit<WordList, "rating">;
 };
 
-function EditContainer({ id, name, words }: Props) {
-  return <CardForm id={id} name={name} words={words} />;
+function EditContainer({ wordList }: Props) {
+  const { id, name, description } = wordList;
+
+  const { handleSubmit, reset, ...methods } = useForm<EditForm>({
+    mode: "onBlur",
+    defaultValues: {
+      id,
+      name,
+      description,
+      words: wordList.words.map((word) => ({
+        id: word.id,
+        original: word.original,
+        translation: word.translation,
+      })),
+      formState: {
+        original: "",
+        translation: "",
+      },
+    },
+  });
+
+  const router = useRouter();
+  const [updateWordList] = useUpdateWordListMutation();
+
+  const handleEditWordList = useCallback(
+    async (formData: any) => {
+      try {
+        await updateWordList({
+          variables: {
+            request: {
+              id: formData.id,
+              name: formData.name,
+              description: formData.description,
+              words: formData.words.map((word: Word) => ({
+                original: word.original,
+                translation: word.translation,
+              })),
+            },
+          },
+        });
+
+        await router.push("/");
+      } catch (error) {
+        if (isApolloError(error as Error)) {
+          console.log(error);
+
+          return;
+        }
+
+        throw error;
+      }
+    },
+    [updateWordList]
+  );
+
+  return (
+    <FormProvider {...{ ...methods, handleSubmit, reset }}>
+      <form onSubmit={handleSubmit(handleEditWordList)}>
+        <CardForm type={FormTypeEnum.UPDATE} />
+      </form>
+    </FormProvider>
+  );
 }
 
 export default memo(EditContainer);

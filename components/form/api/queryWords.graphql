@@ -3,6 +3,7 @@ query WordListById($request: WordListInput!) {
         items {
             id
             name
+            description
             words {
                 id
                 original

@@ -1,74 +1,99 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useCallback } from "react";
 import {
   Button,
-  VStack,
-  HStack,
   FormControl,
   FormLabel,
   Input,
-} from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
-import { FiSave } from 'react-icons/fi';
+  VStack,
+  SimpleGrid,
+  Box,
+  FormErrorMessage,
+} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { FiSave } from "react-icons/fi";
+import { useFormContext } from "react-hook-form";
 
-enum WORD_INPUT {
-  CZECH = 'czech',
-  ENGLISH = 'english',
-}
+import type { CreateForm, EditForm } from "@components/form/types";
 
 const CardFormInput = () => {
-  const [czechWord, setCzechWord] = useState('');
-  const [englishWord, setEnglishWord] = useState('');
+  const {
+    register,
+    formState: { errors },
+    watch,
+    resetField,
+    setValue,
+  } = useFormContext<CreateForm | EditForm>();
+  const [words, { original, translation }] = watch(["words", "formState"]);
 
-  const handleChangeWord = useCallback(
-    ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>) => {
-      if (name === WORD_INPUT.CZECH) {
-        setCzechWord(value);
-      } else {
-        setEnglishWord(value);
-      }
-    },
-    [],
-  );
+  const handleAddWord = useCallback(() => {
+    setValue("words", [...words, { original, translation }]);
+    resetField("formState");
+  }, [words, original, translation, setValue, resetField]);
 
   return (
-    <HStack gap={2} py={10} alignItems="flex-end">
-      <FormControl isRequired>
-        <FormLabel>Česky</FormLabel>
-        <Input
-          value={czechWord}
-          name={WORD_INPUT.CZECH}
-          placeholder="Napiš české slovo ..."
-          onChange={handleChangeWord}
-        />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel>Anglicky</FormLabel>
-        <Input
-          value={englishWord}
-          name={WORD_INPUT.ENGLISH}
-          placeholder="Napiš anglické slovo ..."
-          onChange={handleChangeWord}
-        />
-      </FormControl>
-      <VStack>
-        <Button
-          w="140px"
-          colorScheme="green"
-          aria-label="add-word"
-          leftIcon={<AddIcon />}
-        >
-          Přidat slovo
-        </Button>
-        <Button
-          w="140px"
-          colorScheme="blue"
-          aria-label="save-card"
-          leftIcon={<FiSave />}
-        >
-          Uložit
-        </Button>
-      </VStack>
-    </HStack>
+    <SimpleGrid minChildWidth="300px" columns={3} spacing={5} py={10}>
+      <Box>
+        <FormControl isInvalid={Boolean(errors.formState?.original?.type)}>
+          <FormLabel>Původní slovo</FormLabel>
+          <Input
+            {...register("formState.original", {
+              required: false,
+              minLength: 2,
+              maxLength: 15,
+            })}
+            placeholder="Napiš původní slovo ..."
+          />
+          <FormErrorMessage>
+            Délka slova musí být v rozsahu 2 až 15 písmen.
+          </FormErrorMessage>
+        </FormControl>
+      </Box>
+      <Box>
+        <FormControl isInvalid={Boolean(errors.formState?.translation?.type)}>
+          <FormLabel>Překlad</FormLabel>
+          <Input
+            {...register("formState.translation", {
+              required: false,
+              minLength: 2,
+              maxLength: 15,
+            })}
+            placeholder="Napiš překlad slova ..."
+          />
+          <FormErrorMessage>
+            Délka slova musí být v rozsahu 3 až 15 písmen.
+          </FormErrorMessage>
+        </FormControl>
+      </Box>
+      <Box>
+        <VStack>
+          <Button
+            w="100%"
+            colorScheme="green"
+            aria-label="add-word"
+            leftIcon={<AddIcon />}
+            disabled={
+              !original ||
+              !translation ||
+              Boolean(errors.formState?.original?.type) ||
+              Boolean(errors.formState?.translation?.type)
+            }
+            onClick={handleAddWord}
+          >
+            Přidat slovo
+          </Button>
+          <Button
+            type="submit"
+            w="100%"
+            colorScheme="blue"
+            aria-label="save-card"
+            leftIcon={<FiSave />}
+            disabled={words.length < 2}
+          >
+            Uložit kartu
+          </Button>
+        </VStack>
+      </Box>
+    </SimpleGrid>
   );
 };
 
