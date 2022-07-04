@@ -32,13 +32,22 @@ export type CreateWordListInput = {
   words: Array<WordInput>;
 };
 
+export type DeleteWordListInput = {
+  id: Scalars["ID"];
+};
+
 export type Mutation = {
   createWordList: Scalars["Boolean"];
+  deleteWordList: Scalars["Boolean"];
   updateWordList: Scalars["Boolean"];
 };
 
 export type MutationCreateWordListArgs = {
   request: CreateWordListInput;
+};
+
+export type MutationDeleteWordListArgs = {
+  request: DeleteWordListInput;
 };
 
 export type MutationUpdateWordListArgs = {
@@ -210,6 +219,7 @@ export type DirectiveResolverFn<
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CreateWordListInput: CreateWordListInput;
+  DeleteWordListInput: DeleteWordListInput;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -229,6 +239,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"];
   CreateWordListInput: CreateWordListInput;
+  DeleteWordListInput: DeleteWordListInput;
   ID: Scalars["ID"];
   Int: Scalars["Int"];
   Mutation: {};
@@ -253,6 +264,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationCreateWordListArgs, "request">
+  >;
+  deleteWordList?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteWordListArgs, "request">
   >;
   updateWordList?: Resolver<
     ResolversTypes["Boolean"],

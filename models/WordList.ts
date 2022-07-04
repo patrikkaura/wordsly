@@ -34,17 +34,24 @@ export default class WordListModel {
     return true;
   }
 
-  static async update({ id, name, description, words }: WordListUpdateInput) {
+  static async delete(id: string) {
     await client.word.deleteMany({
       where: {
         wordListId: id,
       },
     });
+
     await client.wordList.delete({
       where: {
         id,
       },
     });
+
+    return true;
+  }
+
+  static async update({ id, name, description, words }: WordListUpdateInput) {
+    await this.delete(id);
 
     await this.create({ name, description, words });
 
