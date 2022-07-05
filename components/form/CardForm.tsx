@@ -1,7 +1,6 @@
-import React from "react";
 import { Box, Heading } from "@chakra-ui/react";
-
 import { FormTypeEnum } from "@components/form/types";
+import React from "react";
 
 import CardFormBaseInput from "./CardFormBaseInput";
 import CardFormInput from "./CardFormInput";

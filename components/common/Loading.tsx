@@ -1,5 +1,5 @@
-import { memo } from 'react';
 import { Center, Spinner } from '@chakra-ui/react';
+import { memo } from 'react';
 
 function Loading() {
   return (

@@ -21,6 +21,7 @@
       "@styles/*": ["styles/*"],
       "@generated/*": ["generated/*"],
       "@models/*": ["models/*"],
+      "@hooks/*": ["hooks/*"],
       "types/*": ["types/*"],
       "@config": ["config/index"],
     }

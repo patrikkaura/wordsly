@@ -1,15 +1,14 @@
-import { memo } from 'react';
 import {
-  HStack,
-  VStack,
-  Link,
-  Icon,
   Box,
   Divider,
+  HStack,
+  Icon,
+  Link,
   Text,
+  VStack,
 } from '@chakra-ui/react';
-
-import { FiTwitter, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { memo } from 'react';
+import { FiGithub, FiLinkedin,FiTwitter } from 'react-icons/fi';
 
 const LINKS = [
   { url: 'https://twitter.com/patrikkaura', icon: FiTwitter },

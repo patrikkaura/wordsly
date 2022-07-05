@@ -1,16 +1,15 @@
+import '@styles/globals.css';
+
 import {
-  ApolloProvider,
   ApolloClient,
+  ApolloProvider,
   HttpLink,
   InMemoryCache,
 } from '@apollo/client';
-import type { AppProps } from 'next/app';
-import { ChakraProvider, Flex, Box } from '@chakra-ui/react';
-
-import '@styles/globals.css';
-
-import TopBarContainer from '@components/layout/top-bar/TopBarContainer';
+import { Box,ChakraProvider, Flex } from '@chakra-ui/react';
 import FooterContainer from '@components/layout/footer/FooterContainer';
+import TopBarContainer from '@components/layout/top-bar/TopBarContainer';
+import type { AppProps } from 'next/app';
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: '/api/graphql' }),

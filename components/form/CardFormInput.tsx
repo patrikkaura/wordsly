@@ -1,19 +1,18 @@
-import React, { memo, useCallback } from "react";
+import { AddIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
-  VStack,
   SimpleGrid,
-  Box,
-  FormErrorMessage,
+  VStack,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
-import { FiSave } from "react-icons/fi";
-import { useFormContext } from "react-hook-form";
-
 import type { CreateForm, EditForm } from "@components/form/types";
+import React, { memo, useCallback } from "react";
+import { useFormContext } from "react-hook-form";
+import { FiSave } from "react-icons/fi";
 
 const CardFormInput = () => {
   const {

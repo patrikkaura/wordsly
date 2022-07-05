@@ -1,6 +1,6 @@
-import { memo } from 'react';
-import { Flex, Spacer, Box, Divider, Heading } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading,Spacer } from '@chakra-ui/react';
 import Link from 'next/link';
+import { memo } from 'react';
 
 import TopBarMenu from './TopBarMenu';
 
