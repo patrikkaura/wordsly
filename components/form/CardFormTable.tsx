@@ -1,19 +1,18 @@
-import { memo, useCallback } from "react";
+import { MinusIcon } from "@chakra-ui/icons";
 import {
   IconButton,
-  TableContainer,
   Table,
   TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
   Thead,
   Tr,
-  Th,
-  Td,
-  Tbody,
 } from "@chakra-ui/react";
-import { MinusIcon } from "@chakra-ui/icons";
-import { useFormContext } from "react-hook-form";
-
 import type { CreateForm, EditForm } from "@components/form/types";
+import { memo, useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 import type { Word } from "types";
 
 const CardFormTable = () => {

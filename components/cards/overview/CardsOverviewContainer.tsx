@@ -1,9 +1,7 @@
-import { memo } from "react";
 import { Wrap, WrapItem } from "@chakra-ui/react";
-
-import Card from "@components/cards/overview/card/Card";
 import CardsOverviewToolbar from "@components//cards/overview/CardsOverviewToolbar";
-
+import Card from "@components/cards/overview/card/Card";
+import { memo } from "react";
 import type { Word } from "types";
 
 type WordList = {

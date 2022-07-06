@@ -1,8 +1,8 @@
+import { ArrowRightIcon, EditIcon,StarIcon } from '@chakra-ui/icons';
+import { Box, Flex, IconButton,Spacer } from '@chakra-ui/react';
 import range from 'lodash/range';
-import { memo, useMemo } from 'react';
-import { Box, Flex, Spacer, IconButton } from '@chakra-ui/react';
-import { StarIcon, ArrowRightIcon, EditIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
+import { memo, useMemo } from 'react';
 
 type Props = {
   id: string;

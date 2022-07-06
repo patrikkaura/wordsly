@@ -1,17 +1,16 @@
-import { memo, useMemo } from 'react';
 import {
   Box,
   Center,
-  StatGroup,
   Stat,
+  StatGroup,
+  StatHelpText,
   StatLabel,
   StatNumber,
-  StatHelpText,
 } from '@chakra-ui/react';
+import { AVATAR_COLORS } from '@config';
 import Avatar from 'boring-avatars';
 import Link from 'next/link';
-
-import { AVATAR_COLORS } from '@config';
+import { memo, useMemo } from 'react';
 
 import CardStatBar from './CardStatBar';
 

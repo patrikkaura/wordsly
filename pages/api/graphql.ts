@@ -1,9 +1,9 @@
-import { ApolloServer } from "apollo-server-micro";
 import "graphql-import-node";
-import type { PageConfig } from "next";
 
-import typeDefs from "@graphql/schema.graphql";
 import resolvers from "@graphql/resolvers";
+import typeDefs from "@graphql/schema.graphql";
+import { ApolloServer } from "apollo-server-micro";
+import type { PageConfig } from "next";
 
 const server = new ApolloServer({
   typeDefs,

@@ -1,15 +1,14 @@
-import React, { memo } from "react";
 import {
-  SimpleGrid,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
   Box,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { useFormContext } from "react-hook-form";
-
 import type { CreateForm, EditForm } from "@components/form/types";
+import React, { memo } from "react";
+import { useFormContext } from "react-hook-form";
 
 const CardFormBaseInput = () => {
   const {

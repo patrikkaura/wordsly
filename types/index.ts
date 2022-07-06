@@ -11,3 +11,9 @@ export type WordList = {
   words: Word[];
   rating: number;
 };
+
+export enum END_STATUS {
+  SUCCESS = 1,
+  PARTIAL_SUCCESS,
+  FAILED,
+}

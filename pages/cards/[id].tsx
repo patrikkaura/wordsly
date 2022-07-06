@@ -1,9 +1,8 @@
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
-
+import Loading from "@components/common/Loading";
 import EditContainer from "@components/form/edit/EditContainer";
 import { useWordListByIdQuery } from "@generated/graphql";
-import Loading from "@components/common/Loading";
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
 
 const CardEdit: NextPage = () => {
   const router = useRouter();

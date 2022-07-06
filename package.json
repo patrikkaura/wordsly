@@ -8,6 +8,7 @@
     "start": "next start",
     "test:watch": "jest --watch",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "prettier": "prettier --check pages/",
     "prettier:fix": "prettier --write pages/",
     "graphql:generate": "graphql-codegen"
@@ -23,7 +24,6 @@
     "@sentry/nextjs": "^7.4.1",
     "apollo-server-micro": "^3.9.0",
     "boring-avatars": "^1.7.0",
-    "framer-motion": "^6.3.11",
     "graphql": "^16.5.0",
     "graphql-import-node": "^0.0.5",
     "lodash": "^4.17.21",
@@ -49,6 +49,7 @@
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "prettier": "^2.7.1",

@@ -1,8 +1,7 @@
-import type { NextPage } from "next";
-
 import CardsOverviewContainer from "@components/cards/overview/CardsOverviewContainer";
-import { useAllWordListsQuery } from "@generated/graphql";
 import Loading from "@components/common/Loading";
+import { useAllWordListsQuery } from "@generated/graphql";
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   const { data, loading } = useAllWordListsQuery({

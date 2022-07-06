@@ -1,20 +1,20 @@
-import { memo } from 'react';
+import {
+  BellIcon,
+  HamburgerIcon,
+  SettingsIcon,
+  UnlockIcon,
+} from '@chakra-ui/icons';
 import {
   Box,
+  HStack,
   IconButton,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
-  HStack,
+  MenuList,
   Tag,
 } from '@chakra-ui/react';
-import {
-  HamburgerIcon,
-  UnlockIcon,
-  SettingsIcon,
-  BellIcon,
-} from '@chakra-ui/icons';
+import { memo } from 'react';
 
 function TopBarMenu() {
   return (
