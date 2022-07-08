@@ -1,11 +1,11 @@
 import {
+  CreateWordListInput,
+  DeleteWordListInput,
+  UpdateWordListInput,
+  UpdateWordListRatingInput,
   WordListInput,
   WordListResponse,
-  CreateWordListInput,
-  UpdateWordListInput,
-  DeleteWordListInput,
 } from "@generated/graphql";
-
 import WordListModel from "@models/WordList";
 
 type Request<T> = { request: T };
@@ -57,6 +57,13 @@ export async function updateWordListMutation({
   });
 }
 
+export async function updateWordListRatingMutation({
+  id,
+  rating,
+}: UpdateWordListRatingInput): Promise<boolean> {
+  return WordListModel.updateRating({ id, rating });
+}
+
 export async function deleteWordListMutation({
   id,
 }: DeleteWordListInput): Promise<boolean> {
@@ -74,6 +81,10 @@ export const Mutations = {
     createWordListMutation(request),
   updateWordList: (_: any, { request }: Request<UpdateWordListInput>) =>
     updateWordListMutation(request),
+  updateWordListRating: (
+    _: any,
+    { request }: Request<UpdateWordListRatingInput>
+  ) => updateWordListRatingMutation(request),
   deleteWordList: (_: any, { request }: Request<DeleteWordListInput>) =>
     deleteWordListMutation(request),
 };

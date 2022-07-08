@@ -40,6 +40,7 @@ export type Mutation = {
   createWordList: Scalars["Boolean"];
   deleteWordList: Scalars["Boolean"];
   updateWordList: Scalars["Boolean"];
+  updateWordListRating: Scalars["Boolean"];
 };
 
 export type MutationCreateWordListArgs = {
@@ -52,6 +53,10 @@ export type MutationDeleteWordListArgs = {
 
 export type MutationUpdateWordListArgs = {
   request: UpdateWordListInput;
+};
+
+export type MutationUpdateWordListRatingArgs = {
+  request: UpdateWordListRatingInput;
 };
 
 export type Query = {
@@ -73,6 +78,11 @@ export type UpdateWordListInput = {
   id: Scalars["ID"];
   name: Scalars["String"];
   words: Array<WordInput>;
+};
+
+export type UpdateWordListRatingInput = {
+  id: Scalars["ID"];
+  rating: Scalars["Int"];
 };
 
 export type Word = {
@@ -226,6 +236,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   UpdateWordListInput: UpdateWordListInput;
+  UpdateWordListRatingInput: UpdateWordListRatingInput;
   Word: ResolverTypeWrapper<Word>;
   WordInput: WordInput;
   WordList: ResolverTypeWrapper<WordList>;
@@ -246,6 +257,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars["String"];
   UpdateWordListInput: UpdateWordListInput;
+  UpdateWordListRatingInput: UpdateWordListRatingInput;
   Word: Word;
   WordInput: WordInput;
   WordList: WordList;
@@ -276,6 +288,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationUpdateWordListArgs, "request">
+  >;
+  updateWordListRating?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateWordListRatingArgs, "request">
   >;
 };
 
@@ -371,6 +389,12 @@ export type WordsQuery = {
     items: Array<{ id: string; original: string; translation: string }>;
   };
 };
+
+export type UpdateWordListRatingMutationVariables = Exact<{
+  request: UpdateWordListRatingInput;
+}>;
+
+export type UpdateWordListRatingMutation = { updateWordListRating: boolean };
 
 export type CreateWordListMutationVariables = Exact<{
   request: CreateWordListInput;
@@ -521,6 +545,55 @@ export type WordsQueryResult = ApolloReactCommon.QueryResult<
   WordsQuery,
   WordsQueryVariables
 >;
+export const UpdateWordListRatingDocument = gql`
+  mutation UpdateWordListRating($request: UpdateWordListRatingInput!) {
+    updateWordListRating(request: $request)
+  }
+`;
+export type UpdateWordListRatingMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateWordListRatingMutation,
+  UpdateWordListRatingMutationVariables
+>;
+
+/**
+ * __useUpdateWordListRatingMutation__
+ *
+ * To run a mutation, you first call `useUpdateWordListRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWordListRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWordListRatingMutation, { data, loading, error }] = useUpdateWordListRatingMutation({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useUpdateWordListRatingMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateWordListRatingMutation,
+    UpdateWordListRatingMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    UpdateWordListRatingMutation,
+    UpdateWordListRatingMutationVariables
+  >(UpdateWordListRatingDocument, options);
+}
+export type UpdateWordListRatingMutationHookResult = ReturnType<
+  typeof useUpdateWordListRatingMutation
+>;
+export type UpdateWordListRatingMutationResult =
+  ApolloReactCommon.MutationResult<UpdateWordListRatingMutation>;
+export type UpdateWordListRatingMutationOptions =
+  ApolloReactCommon.BaseMutationOptions<
+    UpdateWordListRatingMutation,
+    UpdateWordListRatingMutationVariables
+  >;
 export const CreateWordListDocument = gql`
   mutation CreateWordList($request: CreateWordListInput!) {
     createWordList(request: $request)

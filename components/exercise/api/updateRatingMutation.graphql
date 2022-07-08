@@ -1,0 +1,3 @@
+mutation UpdateWordListRating($request: UpdateWordListRatingInput!) {
+    updateWordListRating(request: $request)
+}

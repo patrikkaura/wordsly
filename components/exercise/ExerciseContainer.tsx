@@ -1,7 +1,9 @@
+import { isApolloError } from "@apollo/client";
 import { Box, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { useUpdateWordListRatingMutation } from "@generated/graphql";
 import useExercise from "@hooks/useExercise";
 import useScore from "@hooks/useScore";
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import type { Word } from "types";
 import { END_STATUS } from "types";
@@ -13,12 +15,13 @@ import ResultDialog from "./ResultDialog";
 import WordCardList from "./WordCardList";
 
 type Props = {
+  id: string;
   items: Word[];
 };
 
 const MAXIMUM_NUMBER_OF_TRIES = 3;
 
-function ExerciseContainer({ items }: Props) {
+function ExerciseContainer({ id, items }: Props) {
   const [{ word, progress, isLastStepIndex }, setNextStep] = useExercise({
     words: items,
   });
@@ -31,6 +34,8 @@ function ExerciseContainer({ items }: Props) {
   const [currentGuess, setCurrentGuess] = useState("");
   const [guessedWords, setGuessedWords] = useState<string[]>([]);
 
+  const [updateWordListRating] = useUpdateWordListRatingMutation();
+
   const handleCurrentGuess = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +46,26 @@ function ExerciseContainer({ items }: Props) {
       setCurrentGuess(value);
     }
   };
+
+  const handleUpdateRating = useCallback(async () => {
+    try {
+      await updateWordListRating({
+        variables: {
+          request: {
+            id,
+            rating,
+          },
+        },
+      });
+    } catch (error) {
+      if (isApolloError(error as Error)) {
+        console.error(error);
+
+        return;
+      }
+      throw error;
+    }
+  }, [id, rating, updateWordListRating]);
 
   const endState = useMemo(() => {
     if (currentGuess === translation) {
@@ -77,6 +102,8 @@ function ExerciseContainer({ items }: Props) {
           setCurrentGuess("");
           setNextStep();
         }, 1000);
+      } else {
+        handleUpdateRating();
       }
     }
   }, [endState]);

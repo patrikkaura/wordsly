@@ -22,7 +22,7 @@ const Exercise: NextPage = () => {
 
   const items = data?.words.items || [];
 
-  return <ExerciseContainer items={items} />;
+  return <ExerciseContainer id={id as string} items={items} />;
 };
 
 export default Exercise;

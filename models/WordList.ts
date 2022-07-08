@@ -1,5 +1,5 @@
-import type { Word } from "types";
 import client from "models/clients/prisma";
+import type { Word } from "types";
 
 type WordListCreateInput = {
   name: string;
@@ -12,6 +12,11 @@ type WordListUpdateInput = {
   name: string;
   description: string;
   words: Pick<Word, "original" | "translation">[];
+};
+
+type WordListUpdateRatingInput = {
+  id: string;
+  rating: number;
 };
 
 export default class WordListModel {
@@ -54,6 +59,19 @@ export default class WordListModel {
     await this.delete(id);
 
     await this.create({ name, description, words });
+
+    return true;
+  }
+
+  static async updateRating({ id, rating }: WordListUpdateRatingInput) {
+    await client.wordList.update({
+      data: {
+        rating,
+      },
+      where: {
+        id,
+      },
+    });
 
     return true;
   }
