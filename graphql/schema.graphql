@@ -52,6 +52,11 @@ input UpdateWordListInput {
     words: [WordInput!]!
 }
 
+input UpdateWordListRatingInput {
+    id: ID!
+    rating: Int!
+}
+
 input DeleteWordListInput {
     id: ID!
 }
@@ -59,5 +64,6 @@ input DeleteWordListInput {
 type Mutation {
     createWordList(request: CreateWordListInput!): Boolean!
     updateWordList(request: UpdateWordListInput!): Boolean!
+    updateWordListRating(request: UpdateWordListRatingInput!): Boolean!
     deleteWordList(request: DeleteWordListInput!): Boolean!
 }
