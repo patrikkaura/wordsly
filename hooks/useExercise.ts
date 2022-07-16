@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { Word } from "types";
 
 type UseExerciseInput = {
@@ -8,7 +8,6 @@ type UseExerciseInput = {
 type UseExerciseReturn = [
   {
     progress: number;
-    isLastStepIndex: boolean;
     word: Word;
   },
   () => void
@@ -37,7 +36,6 @@ export default function useExercise({
   return [
     {
       progress,
-      isLastStepIndex: stepIndex === exercisedWords.length - 1,
       word: exercisedWords[stepIndex],
     },
     setNextStep,

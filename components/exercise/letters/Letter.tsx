@@ -1,12 +1,12 @@
 import { Box, Center, Heading, SimpleGrid } from "@chakra-ui/react";
-import { memo,useCallback } from "react";
+import { memo, useCallback } from "react";
 
 type Props = {
   guessedWord: string;
   translation: string;
 };
 
-function WordCard({ guessedWord, translation }: Props) {
+function Letter({ guessedWord, translation }: Props) {
   const getColor = useCallback(
     (letter: string, index: number) => {
       if (translation.indexOf(letter, index) == index) {
@@ -37,4 +37,4 @@ function WordCard({ guessedWord, translation }: Props) {
   );
 }
 
-export default memo(WordCard);
+export default memo(Letter);
