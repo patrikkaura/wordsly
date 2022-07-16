@@ -1,7 +1,7 @@
 import { CheckIcon, WarningTwoIcon } from "@chakra-ui/icons";
 import { Box, Heading, HStack, Slide } from "@chakra-ui/react";
 import React, { memo, useMemo } from "react";
-import { END_STATUS } from "types";
+import { END_STATUS } from "types/index";
 
 type Props = {
   isVisible: boolean;

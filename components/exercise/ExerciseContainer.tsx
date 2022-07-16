@@ -1,51 +1,42 @@
 import { isApolloError } from "@apollo/client";
 import { Box, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { MAXIMUM_NUMBER_OF_TRIES } from "@config";
 import { useUpdateWordListRatingMutation } from "@generated/graphql";
-import useExercise from "@hooks/useExercise";
-import useScore from "@hooks/useScore";
-import React, { memo, useCallback, useMemo, useState } from "react";
+import { useExercise, useGuess, useScore } from "@hooks/index";
+import React, { memo, useCallback, useMemo } from "react";
 import { useUpdateEffect } from "react-use";
 import type { Word } from "types";
 import { END_STATUS } from "types";
 
-import FooterSlider from "./FooterSlider";
 import GuessInput from "./GuessInput";
-import ProgressBar from "./ProgressBar";
-import ResultDialog from "./ResultDialog";
-import WordCardList from "./WordCardList";
+import WordCardList from "./letters/LetterList";
+import ResultDialog from "./modal/ResultDialog";
+import FooterSlider from "./progress/FooterSlider";
+import ProgressBar from "./progress/ProgressBar";
 
 type Props = {
   id: string;
   items: Word[];
 };
 
-const MAXIMUM_NUMBER_OF_TRIES = 3;
-
 function ExerciseContainer({ id, items }: Props) {
-  const [{ word, progress, isLastStepIndex }, setNextStep] = useExercise({
+  const [updateWordListRating] = useUpdateWordListRatingMutation();
+
+  const [{ word, progress }, setNextStep] = useExercise({
     words: items,
   });
   const [rating, updateScore] = useScore({
     numberOfWords: items.length,
   });
+  const [
+    { currentGuess, guessedWords },
+    handleSetCurrentGuess,
+    handleSetGuess,
+    handleResetGuess,
+  ] = useGuess({ translation: word.translation });
 
   const { original, translation } = word;
-
-  const [currentGuess, setCurrentGuess] = useState("");
-  const [guessedWords, setGuessedWords] = useState<string[]>([]);
-
-  const [updateWordListRating] = useUpdateWordListRatingMutation();
-
-  const handleCurrentGuess = ({
-    target: { value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    if (
-      value.length > currentGuess.length &&
-      value.length <= translation.length
-    ) {
-      setCurrentGuess(value);
-    }
-  };
+  const isLastWord = progress === 100;
 
   const handleUpdateRating = useCallback(async () => {
     try {
@@ -86,8 +77,7 @@ function ExerciseContainer({ id, items }: Props) {
         guessedWords.length < MAXIMUM_NUMBER_OF_TRIES &&
         currentGuess !== translation
       ) {
-        setGuessedWords([...guessedWords, currentGuess]);
-        setCurrentGuess("");
+        handleSetGuess();
       }
     }
   }, [currentGuess, translation, guessedWords]);
@@ -96,14 +86,11 @@ function ExerciseContainer({ id, items }: Props) {
     if (endState) {
       updateScore(endState);
 
-      if (!isLastStepIndex) {
+      if (!isLastWord) {
         setTimeout(() => {
-          setGuessedWords([]);
-          setCurrentGuess("");
+          handleResetGuess();
           setNextStep();
         }, 1000);
-      } else {
-        handleUpdateRating();
       }
     }
   }, [endState]);
@@ -124,7 +111,7 @@ function ExerciseContainer({ id, items }: Props) {
             <GuessInput
               disabled={Boolean(endState)}
               currentGuess={currentGuess}
-              onGuessChange={handleCurrentGuess}
+              onGuessChange={handleSetCurrentGuess}
             />
           </GridItem>
           <GridItem h="300">
@@ -141,7 +128,8 @@ function ExerciseContainer({ id, items }: Props) {
       )}
       <ResultDialog
         rating={rating}
-        isVisible={Boolean(endState) && isLastStepIndex}
+        isVisible={Boolean(endState) && isLastWord}
+        onUpdateRating={handleUpdateRating}
       />
     </>
   );

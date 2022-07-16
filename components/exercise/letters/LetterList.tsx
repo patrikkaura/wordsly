@@ -1,8 +1,8 @@
 import { Center, SimpleGrid } from "@chakra-ui/react";
 import React, { memo } from "react";
-import type { Word } from "types";
+import type { Word } from "types/index";
 
-import WordCard from "./WordCard";
+import Letter from "./Letter";
 
 type Props = {
   word: Word;
@@ -10,18 +10,18 @@ type Props = {
   guessedWords: string[];
 };
 
-function WordCardList({ currentGuess, guessedWords, word }: Props) {
+function LetterList({ currentGuess, guessedWords, word }: Props) {
   const { translation } = word;
 
   return (
     <SimpleGrid gap={8} p={8}>
       {[...guessedWords, currentGuess].map((guessedWord, index) => (
         <Center key={`${index}-${word}`}>
-          <WordCard translation={translation} guessedWord={guessedWord} />
+          <Letter translation={translation} guessedWord={guessedWord} />
         </Center>
       ))}
     </SimpleGrid>
   );
 }
 
-export default memo(WordCardList);
+export default memo(LetterList);

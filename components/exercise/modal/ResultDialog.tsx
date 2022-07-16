@@ -19,9 +19,10 @@ import React, { memo, useCallback, useMemo, useRef } from "react";
 type Props = {
   isVisible: boolean;
   rating: number;
+  onUpdateRating: () => void;
 };
 
-function ResultDialog({ isVisible, rating }: Props) {
+function ResultDialog({ isVisible, rating, onUpdateRating }: Props) {
   const router = useRouter();
   const alertDialogRef = useRef<HTMLDivElement>(null);
 
@@ -44,8 +45,9 @@ function ResultDialog({ isVisible, rating }: Props) {
   }, [rating]);
 
   const handleClose = useCallback(async () => {
+    await onUpdateRating();
     await router.push("/");
-  }, [router]);
+  }, [router, onUpdateRating]);
 
   return (
     <AlertDialog
