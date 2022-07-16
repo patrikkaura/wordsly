@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "test:watch": "jest --watch",
+    "test": "jest",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "prettier": "prettier --check pages/",
-    "prettier:fix": "prettier --write pages/",
+    "prettier": "prettier --check ./**/*.{ts,tsx,js}",
+    "prettier:fix": "prettier --write ./**/*.{ts,tsx,js}",
     "graphql:generate": "graphql-codegen"
   },
   "dependencies": {
