@@ -1,8 +1,8 @@
-import { Box, Divider, Flex, Heading,Spacer } from '@chakra-ui/react';
-import Link from 'next/link';
-import { memo } from 'react';
+import { Box, Divider, Flex, Heading, Spacer } from "@chakra-ui/react";
+import Link from "next/link";
+import { memo } from "react";
 
-import TopBarMenu from './TopBarMenu';
+import TopBarMenu from "./TopBarMenu";
 
 function TopBarContainer() {
   return (
@@ -10,7 +10,7 @@ function TopBarContainer() {
       <Box w="100%" p={2}>
         <Flex alignItems="center">
           <Heading size="lg">
-            <Link href="/">LOGO</Link>
+            <Link href="/">WORDSLY</Link>
           </Heading>
           <Spacer />
           <TopBarMenu />
