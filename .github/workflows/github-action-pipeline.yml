@@ -22,6 +22,16 @@ jobs:
         run: npm ci
       - name: eslint
         run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v2
+      - name: npm install
+        run: npm ci
       - name: jest
         run: npm run test -- --coverage
       - name: jest:coverage
