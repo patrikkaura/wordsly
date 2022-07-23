@@ -1,13 +1,12 @@
 import { WordsInput, WordsResponse } from "@generated/graphql";
-
-import WordModel from "@models/Word";
+import { WordPort } from "@graphql/ports";
 
 type Request<T> = { request: T };
 
 export async function wordsResolver({
   id,
 }: WordsInput): Promise<WordsResponse> {
-  const items = await WordModel.findAllByWordListId(id);
+  const items = await WordPort.findAllByWordListId(id);
 
   if (!items) {
     return { items: [] };
