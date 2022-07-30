@@ -29,11 +29,13 @@ export type Scalars = {
 export type CreateWordListInput = {
   description: Scalars["String"];
   name: Scalars["String"];
+  userId: Scalars["ID"];
   words: Array<WordInput>;
 };
 
 export type DeleteWordListInput = {
   id: Scalars["ID"];
+  userId: Scalars["ID"];
 };
 
 export type Mutation = {
@@ -65,8 +67,12 @@ export type Query = {
   words: WordsResponse;
 };
 
-export type QueryWordListByIdArgs = {
+export type QueryWordListArgs = {
   request: WordListInput;
+};
+
+export type QueryWordListByIdArgs = {
+  request: WordListByIdInput;
 };
 
 export type QueryWordsArgs = {
@@ -77,12 +83,14 @@ export type UpdateWordListInput = {
   description: Scalars["String"];
   id: Scalars["ID"];
   name: Scalars["String"];
+  userId: Scalars["ID"];
   words: Array<WordInput>;
 };
 
 export type UpdateWordListRatingInput = {
   id: Scalars["ID"];
   rating: Scalars["Int"];
+  userId: Scalars["ID"];
 };
 
 export type Word = {
@@ -104,8 +112,13 @@ export type WordList = {
   words: Array<Word>;
 };
 
-export type WordListInput = {
+export type WordListByIdInput = {
   id: Scalars["ID"];
+  userId: Scalars["ID"];
+};
+
+export type WordListInput = {
+  userId: Scalars["ID"];
 };
 
 export type WordListResponse = {
@@ -114,6 +127,7 @@ export type WordListResponse = {
 
 export type WordsInput = {
   id: Scalars["ID"];
+  userId: Scalars["ID"];
 };
 
 export type WordsResponse = {
@@ -240,6 +254,7 @@ export type ResolversTypes = {
   Word: ResolverTypeWrapper<Word>;
   WordInput: WordInput;
   WordList: ResolverTypeWrapper<WordList>;
+  WordListByIdInput: WordListByIdInput;
   WordListInput: WordListInput;
   WordListResponse: ResolverTypeWrapper<WordListResponse>;
   WordsInput: WordsInput;
@@ -261,6 +276,7 @@ export type ResolversParentTypes = {
   Word: Word;
   WordInput: WordInput;
   WordList: WordList;
+  WordListByIdInput: WordListByIdInput;
   WordListInput: WordListInput;
   WordListResponse: WordListResponse;
   WordsInput: WordsInput;
@@ -304,7 +320,8 @@ export type QueryResolvers<
   wordList?: Resolver<
     ResolversTypes["WordListResponse"],
     ParentType,
-    ContextType
+    ContextType,
+    RequireFields<QueryWordListArgs, "request">
   >;
   wordListById?: Resolver<
     ResolversTypes["WordListResponse"],
@@ -367,7 +384,9 @@ export type Resolvers<ContextType = any> = {
   WordsResponse?: WordsResponseResolvers<ContextType>;
 };
 
-export type AllWordListsQueryVariables = Exact<{ [key: string]: never }>;
+export type AllWordListsQueryVariables = Exact<{
+  request: WordListInput;
+}>;
 
 export type AllWordListsQuery = {
   wordList: {
@@ -403,7 +422,7 @@ export type CreateWordListMutationVariables = Exact<{
 export type CreateWordListMutation = { createWordList: boolean };
 
 export type WordListByIdQueryVariables = Exact<{
-  request: WordListInput;
+  request: WordListByIdInput;
 }>;
 
 export type WordListByIdQuery = {
@@ -424,8 +443,8 @@ export type UpdateWordListMutationVariables = Exact<{
 export type UpdateWordListMutation = { updateWordList: boolean };
 
 export const AllWordListsDocument = gql`
-  query AllWordLists {
-    wordList {
+  query AllWordLists($request: WordListInput!) {
+    wordList(request: $request) {
       items {
         id
         name
@@ -450,11 +469,12 @@ export const AllWordListsDocument = gql`
  * @example
  * const { data, loading, error } = useAllWordListsQuery({
  *   variables: {
+ *      request: // value for 'request'
  *   },
  * });
  */
 export function useAllWordListsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
+  baseOptions: ApolloReactHooks.QueryHookOptions<
     AllWordListsQuery,
     AllWordListsQueryVariables
   >
@@ -644,7 +664,7 @@ export type CreateWordListMutationOptions =
     CreateWordListMutationVariables
   >;
 export const WordListByIdDocument = gql`
-  query WordListById($request: WordListInput!) {
+  query WordListById($request: WordListByIdInput!) {
     wordListById(request: $request) {
       items {
         id

@@ -1,5 +1,5 @@
-query AllWordLists {
-    wordList {
+query AllWordLists($request: WordListInput!) {
+    wordList(request: $request) {
         items {
             id
             name

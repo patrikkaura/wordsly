@@ -1,7 +1,10 @@
+import prisma from "@graphql/adapters/client/prisma";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -16,9 +19,9 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       // @ts-expect-error session user is defined in next-auth library
-      session.user.uid = token.sub;
+      session.user.uid = user.id;
       return session;
     },
   },

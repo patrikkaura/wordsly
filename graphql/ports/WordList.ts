@@ -5,6 +5,7 @@ type WordListCreateInput = {
   name: string;
   description: string | null;
   words: Pick<Word, "original" | "translation">[];
+  userId: string;
 };
 
 type WordListUpdateInput = {
@@ -12,6 +13,7 @@ type WordListUpdateInput = {
   name: string;
   description: string;
   words: Pick<Word, "original" | "translation">[];
+  userId: string;
 };
 
 type WordListUpdateRatingInput = {
@@ -20,27 +22,38 @@ type WordListUpdateRatingInput = {
 };
 
 export default class WordListPort {
-  static async create({ name, description, words }: WordListCreateInput) {
-    return WordListAdapter.create(name, description, words);
+  static async create({
+    name,
+    description,
+    words,
+    userId,
+  }: WordListCreateInput) {
+    return WordListAdapter.create(name, description, words, userId);
   }
 
-  static async delete(id: string) {
-    return WordListAdapter.delete(id);
+  static async delete(id: string, userId: string) {
+    return WordListAdapter.delete(id, userId);
   }
 
-  static async update({ id, name, description, words }: WordListUpdateInput) {
-    return WordListAdapter.update(id, name, description, words);
+  static async update({
+    id,
+    name,
+    description,
+    words,
+    userId,
+  }: WordListUpdateInput) {
+    return WordListAdapter.update(id, name, description, words, userId);
   }
 
   static async updateRating({ id, rating }: WordListUpdateRatingInput) {
     return WordListAdapter.updateRating(id, rating);
   }
 
-  static async findAll() {
-    return WordListAdapter.findAll();
+  static async findAll(userId: string) {
+    return WordListAdapter.findAll(userId);
   }
 
-  static async findById(id: string) {
-    return WordListAdapter.findById(id);
+  static async findById(id: string, userId: string) {
+    return WordListAdapter.findById(id, userId);
   }
 }
