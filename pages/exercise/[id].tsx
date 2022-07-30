@@ -1,9 +1,10 @@
 import Loading from "@components/common/Loading";
 import ExerciseContainer from "@components/exercise/ExerciseContainer";
 import { useWordsQuery } from "@generated/graphql";
+import requireAuthentication from "@utils/requireAuthentication";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const Exercise: NextPage = () => {
   const { data: session } = useSession();
@@ -30,11 +31,13 @@ const Exercise: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      session: await getSession(ctx),
-    },
-  };
+  return requireAuthentication(ctx, ({ session }) => {
+    return {
+      props: {
+        session,
+      },
+    };
+  });
 };
 
 export default Exercise;
