@@ -5,7 +5,8 @@ export default class WordListAdapter {
   static async create(
     name: string,
     description: string | null,
-    words: Word[]
+    words: Word[],
+    userId: string
   ): Promise<boolean> {
     await mongodb.wordList.create({
       data: {
@@ -15,16 +16,17 @@ export default class WordListAdapter {
           create: words,
         },
         rating: 0,
+        userId,
       },
     });
 
     return true;
   }
 
-  static async delete(id: string) {
+  static async delete(id: string, userId: string) {
     await mongodb.word.deleteMany({
       where: {
-        wordListId: id,
+        AND: [{ wordListId: id }, { wordList: { userId } }],
       },
     });
 
@@ -41,11 +43,12 @@ export default class WordListAdapter {
     id: string,
     name: string,
     description: string,
-    words: Word[]
+    words: Word[],
+    userId: string
   ) {
-    await this.delete(id);
+    await this.delete(id, userId);
 
-    await this.create(name, description, words);
+    await this.create(name, description, words, userId);
 
     return true;
   }
@@ -63,18 +66,21 @@ export default class WordListAdapter {
     return true;
   }
 
-  static async findAll() {
+  static async findAll(userId: string) {
     return mongodb.wordList.findMany({
       include: {
         words: true,
       },
+      where: {
+        userId,
+      },
     });
   }
 
-  static async findById(id: string) {
+  static async findById(id: string, userId: string) {
     return mongodb.wordList.findFirst({
       where: {
-        id,
+        AND: [{ id }, { userId }],
       },
       include: {
         words: true,

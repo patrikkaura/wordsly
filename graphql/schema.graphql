@@ -12,8 +12,13 @@ type WordList {
     words: [Word!]!
 }
 
-input WordListInput {
+input WordListByIdInput {
     id: ID!
+    userId: ID!
+}
+
+input WordListInput {
+    userId: ID!
 }
 
 type WordListResponse {
@@ -22,6 +27,7 @@ type WordListResponse {
 
 input WordsInput {
     id: ID!
+    userId: ID!
 }
 
 type WordsResponse {
@@ -29,8 +35,8 @@ type WordsResponse {
 }
 
 type Query {
-    wordList: WordListResponse!
-    wordListById(request: WordListInput!): WordListResponse!
+    wordList(request: WordListInput!): WordListResponse!
+    wordListById(request: WordListByIdInput!): WordListResponse!
     words(request: WordsInput!): WordsResponse!
 }
 
@@ -43,6 +49,7 @@ input CreateWordListInput {
     name: String!
     description: String!
     words: [WordInput!]!
+    userId: ID!
 }
 
 input UpdateWordListInput {
@@ -50,15 +57,18 @@ input UpdateWordListInput {
     name: String!
     description: String!
     words: [WordInput!]!
+    userId: ID!
 }
 
 input UpdateWordListRatingInput {
     id: ID!
     rating: Int!
+    userId: ID!
 }
 
 input DeleteWordListInput {
     id: ID!
+    userId: ID!
 }
 
 type Mutation {

@@ -3,10 +3,11 @@ import { WordPort } from "@graphql/ports";
 
 type Request<T> = { request: T };
 
-export async function wordsResolver({
+export async function words({
   id,
+  userId,
 }: WordsInput): Promise<WordsResponse> {
-  const items = await WordPort.findAllByWordListId(id);
+  const items = await WordPort.findAllByWordListId(id, userId);
 
   if (!items) {
     return { items: [] };
@@ -16,5 +17,5 @@ export async function wordsResolver({
 }
 
 export const Queries = {
-  words: (_: any, { request }: Request<WordsInput>) => wordsResolver(request),
+  words: (_: any, { request }: Request<WordsInput>) => words(request),
 };

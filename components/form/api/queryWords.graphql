@@ -1,4 +1,4 @@
-query WordListById($request: WordListInput!) {
+query WordListById($request: WordListByIdInput!) {
     wordListById(request: $request) {
         items {
             id

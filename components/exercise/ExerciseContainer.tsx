@@ -3,6 +3,7 @@ import { Box, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
 import { MAXIMUM_NUMBER_OF_TRIES } from "@config";
 import { useUpdateWordListRatingMutation } from "@generated/graphql";
 import { useExercise, useGuess, useScore } from "@hooks/index";
+import { useSession } from "next-auth/react";
 import React, { memo, useCallback, useMemo } from "react";
 import { useUpdateEffect } from "react-use";
 import type { Word } from "types";
@@ -20,6 +21,8 @@ type Props = {
 };
 
 function ExerciseContainer({ id, items }: Props) {
+  const { data: session } = useSession();
+
   const [updateWordListRating] = useUpdateWordListRatingMutation();
 
   const [{ word, progress }, setNextStep] = useExercise({
@@ -43,6 +46,8 @@ function ExerciseContainer({ id, items }: Props) {
       await updateWordListRating({
         variables: {
           request: {
+            // @ts-expect-error: session object has custom uid parameter
+            userId: session?.user?.id,
             id,
             rating,
           },

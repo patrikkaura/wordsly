@@ -3,6 +3,7 @@ import CardForm from "@components/form/CardForm";
 import { EditForm, FormTypeEnum } from "@components/form/types";
 import { useUpdateWordListMutation } from "@generated/graphql";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { memo, useCallback } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import type { Word, WordList } from "types";
@@ -12,6 +13,7 @@ type Props = {
 };
 
 function EditContainer({ wordList }: Props) {
+  const { data: session } = useSession();
   const { id, name, description } = wordList;
 
   const { handleSubmit, reset, ...methods } = useForm<EditForm>({
@@ -41,6 +43,8 @@ function EditContainer({ wordList }: Props) {
         await updateWordList({
           variables: {
             request: {
+              // @ts-expect-error: session object has custom uid parameter
+              userId: session?.user?.uid,
               id: formData.id,
               name: formData.name,
               description: formData.description,
@@ -63,7 +67,7 @@ function EditContainer({ wordList }: Props) {
         throw error;
       }
     },
-    [updateWordList]
+    [router, session, updateWordList]
   );
 
   return (

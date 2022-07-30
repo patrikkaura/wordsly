@@ -1,6 +1,7 @@
 import { BellIcon, SettingsIcon, UnlockIcon } from "@chakra-ui/icons";
 import {
   Avatar,
+  AvatarBadge,
   Box,
   HStack,
   IconButton,
@@ -17,7 +18,7 @@ function TopBarMenu() {
   const { data: session, status } = useSession();
 
   const handleLogout = useCallback(async () => {
-    await signOut();
+    await signOut({ callbackUrl: "/auth/signin", redirect: true });
   }, []);
 
   return (
@@ -50,7 +51,9 @@ function TopBarMenu() {
                     size="sm"
                     name="user"
                     src={session?.user?.image || ""}
-                  />
+                  >
+                    <AvatarBadge bg="green" boxSize="1em" />
+                  </Avatar>
                 }
                 variant="ghost"
               />

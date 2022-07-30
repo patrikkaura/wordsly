@@ -3,6 +3,7 @@ import {
   DeleteWordListInput,
   UpdateWordListInput,
   UpdateWordListRatingInput,
+  WordListByIdInput,
   WordListInput,
   WordListResponse,
 } from "@generated/graphql";
@@ -10,8 +11,10 @@ import { WordListPort } from "@graphql/ports";
 
 type Request<T> = { request: T };
 
-export async function wordListResolver(): Promise<WordListResponse> {
-  const items = await WordListPort.findAll();
+export async function wordList({
+  userId,
+}: WordListInput): Promise<WordListResponse> {
+  const items = await WordListPort.findAll(userId);
 
   if (!items) {
     return { items: [] };
@@ -19,10 +22,11 @@ export async function wordListResolver(): Promise<WordListResponse> {
   return { items: items };
 }
 
-export async function wordListByIdResolver({
+export async function wordListById({
   id,
-}: WordListInput): Promise<WordListResponse> {
-  const item = await WordListPort.findById(id);
+  userId,
+}: WordListByIdInput): Promise<WordListResponse> {
+  const item = await WordListPort.findById(id, userId);
 
   if (!item) {
     return { items: [] };
@@ -31,60 +35,65 @@ export async function wordListByIdResolver({
   return { items: [item] };
 }
 
-export async function createWordListMutation({
+export async function createWordList({
   name,
   description,
   words,
+  userId,
 }: CreateWordListInput): Promise<boolean> {
   return WordListPort.create({
     name,
     description,
     words,
+    userId,
   });
 }
 
-export async function updateWordListMutation({
+export async function updateWordList({
   id,
   name,
   description,
   words,
+  userId,
 }: UpdateWordListInput): Promise<boolean> {
   return WordListPort.update({
     id,
     name,
     description,
     words,
+    userId,
   });
 }
 
-export async function updateWordListRatingMutation({
+export async function updateWordListRating({
   id,
   rating,
 }: UpdateWordListRatingInput): Promise<boolean> {
   return WordListPort.updateRating({ id, rating });
 }
 
-export async function deleteWordListMutation({
+export async function deleteWordList({
   id,
+  userId,
 }: DeleteWordListInput): Promise<boolean> {
-  return WordListPort.delete(id);
+  return WordListPort.delete(id, userId);
 }
 
 export const Queries = {
-  wordList: () => wordListResolver(),
-  wordListById: (_: any, { request }: Request<WordListInput>) =>
-    wordListByIdResolver(request),
+  wordList: (_: any, { request }: Request<WordListInput>) => wordList(request),
+  wordListById: (_: any, { request }: Request<WordListByIdInput>) =>
+    wordListById(request),
 };
 
 export const Mutations = {
   createWordList: (_: any, { request }: Request<CreateWordListInput>) =>
-    createWordListMutation(request),
+    createWordList(request),
   updateWordList: (_: any, { request }: Request<UpdateWordListInput>) =>
-    updateWordListMutation(request),
+    updateWordList(request),
   updateWordListRating: (
     _: any,
     { request }: Request<UpdateWordListRatingInput>
-  ) => updateWordListRatingMutation(request),
+  ) => updateWordListRating(request),
   deleteWordList: (_: any, { request }: Request<DeleteWordListInput>) =>
-    deleteWordListMutation(request),
+    deleteWordList(request),
 };

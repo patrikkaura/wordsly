@@ -1,13 +1,16 @@
 import { isApolloError } from "@apollo/client";
 import CardForm from "@components/form/CardForm";
-import { CreateForm,FormTypeEnum } from "@components/form/types";
+import { CreateForm, FormTypeEnum } from "@components/form/types";
 import { useCreateWordListMutation } from "@generated/graphql";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { memo, useCallback } from "react";
-import { FormProvider,useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import type { Word } from "types";
 
 function CreateContainer() {
+  const { data: session } = useSession();
+
   const methods = useForm<CreateForm>({
     mode: "onBlur",
     defaultValues: {
@@ -30,6 +33,8 @@ function CreateContainer() {
         await createWordList({
           variables: {
             request: {
+              // @ts-expect-error: session object has custom uid parameter
+              userId: session?.user?.uid,
               name: formData.name,
               description: formData.description,
               words: formData.words.map((word: Word) => ({
@@ -51,7 +56,7 @@ function CreateContainer() {
         throw error;
       }
     },
-    [createWordList]
+    [createWordList, router, session]
   );
 
   return (
