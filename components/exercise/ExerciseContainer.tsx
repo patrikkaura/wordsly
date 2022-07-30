@@ -61,7 +61,7 @@ function ExerciseContainer({ id, items }: Props) {
       }
       throw error;
     }
-  }, [id, rating, updateWordListRating]);
+  }, [id, rating, session, updateWordListRating]);
 
   const endState = useMemo(() => {
     if (currentGuess === translation) {
