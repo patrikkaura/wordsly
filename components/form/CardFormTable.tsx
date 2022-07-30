@@ -27,7 +27,7 @@ const CardFormTable = () => {
 
       setValue("words", updatedWords);
     },
-    [words]
+    [setValue, words]
   );
 
   return (
