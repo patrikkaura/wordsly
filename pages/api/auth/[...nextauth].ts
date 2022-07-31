@@ -1,4 +1,4 @@
-import prisma from "@graphql/adapters/client/prisma";
+import prisma from "@client/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";

@@ -6,6 +6,7 @@ import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { Session } from "types/index";
 
 const CardEdit: NextPage = () => {
   const { data: session } = useSession();
@@ -33,7 +34,7 @@ const CardEdit: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return requireAuthentication(ctx, ({ session }) => {
+  return requireAuthentication(ctx, ({ session }: { session: Session }) => {
     return {
       props: {
         session,

@@ -17,3 +17,15 @@ export enum END_STATUS {
   PARTIAL_SUCCESS,
   FAILED,
 }
+
+type SessionUser = {
+  uid: string;
+  name: string;
+  email: string;
+  image: string;
+};
+
+export type Session = {
+  expires: string;
+  user: SessionUser;
+};

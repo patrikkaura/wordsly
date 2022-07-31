@@ -1,4 +1,4 @@
-import mongodb from "@graphql/adapters/client/prisma";
+import mongodb from "@client/prisma";
 
 export default class WordAdapter {
   static async findAllByWordListId(id: string, userId: string) {
