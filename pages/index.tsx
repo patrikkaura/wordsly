@@ -1,9 +1,10 @@
 import CardsOverviewContainer from "@components/cards/overview/CardsOverviewContainer";
 import Loading from "@components/common/Loading";
 import { useAllWordListsQuery } from "@generated/graphql";
+import requireAuthentication from "@utils/requireAuthentication";
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -28,11 +29,13 @@ const Home: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      session: await getSession(ctx),
-    },
-  };
+  return requireAuthentication(ctx, ({ session }) => {
+    return {
+      props: {
+        session,
+      },
+    };
+  });
 };
 
 export default Home;

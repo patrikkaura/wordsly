@@ -1,10 +1,11 @@
 import Loading from "@components/common/Loading";
 import EditContainer from "@components/form/edit/EditContainer";
 import { useWordListByIdQuery } from "@generated/graphql";
+import requireAuthentication from "@utils/requireAuthentication";
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const CardEdit: NextPage = () => {
   const { data: session } = useSession();
@@ -32,11 +33,12 @@ const CardEdit: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      session: await getSession(ctx),
-    },
-  };
+  return requireAuthentication(ctx, ({ session }) => {
+    return {
+      props: {
+        session,
+      },
+    };
+  });
 };
-
 export default CardEdit;
