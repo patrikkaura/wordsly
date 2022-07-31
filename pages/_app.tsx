@@ -1,21 +1,12 @@
 import "@styles/globals.css";
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { Box, ChakraProvider, Flex } from "@chakra-ui/react";
+import client from "@client/apollo";
 import FooterContainer from "@components/layout/footer/FooterContainer";
 import TopBarContainer from "@components/layout/top-bar/TopBarContainer";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
-
-const client = new ApolloClient({
-  link: new HttpLink({ uri: "/api/graphql" }),
-  cache: new InMemoryCache(),
-});
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

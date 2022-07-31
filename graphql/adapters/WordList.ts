@@ -1,4 +1,4 @@
-import mongodb from "@graphql/adapters/client/prisma";
+import mongodb from "@client/prisma";
 import type { Word } from "types";
 
 export default class WordListAdapter {

@@ -5,6 +5,7 @@ import requireAuthentication from "@utils/requireAuthentication";
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
+import { Session } from "types/index";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return requireAuthentication(ctx, ({ session }) => {
+  return requireAuthentication(ctx, ({ session }: { session: Session }) => {
     return {
       props: {
         session,
